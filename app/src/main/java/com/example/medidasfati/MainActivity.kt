@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         val btn_sync = findViewById<Button>(R.id.btn_sync)
         btn_sync.setOnClickListener {
+
             presViewModel.sincronizarConServidor { success, message ->
                 runOnUiThread {
                     if (success) {
@@ -54,6 +55,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        val btn_config = findViewById<Button>(R.id.btn_config)
+        btn_config.setOnClickListener {
+            val intent = Intent(this, Sync::class.java)
+            startActivity(intent)
         }
 
     }

@@ -1,6 +1,8 @@
 package com.example.medidasfati.componentes
 
+import ApiService
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -11,6 +13,8 @@ import kotlinx.coroutines.withContext
 import com.example.medidasfati.db.MedidasDb
 import com.example.medidasfati.models.Presupuesto
 import com.example.medidasfati.Dtos.PresupuestoDto
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class PresupuestoViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -26,6 +30,16 @@ class PresupuestoViewModel(application: Application) : AndroidViewModel(applicat
 
     fun sincronizarConServidor(onResult: (Boolean, String) -> Unit) {
         viewModelScope.launch {
+            val urlBase = obtenerUrlSincronizacion()
+
+            // Reconfigura el cliente Retrofit con la URL base obtenida
+            val retrofit = Retrofit.Builder()
+                .baseUrl(urlBase)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val apiService = retrofit.create(ApiService::class.java)
+
             val presupuestosList = obtenerPresupuestosParaSincronizar()
             Log.d("Sync", "Presupuestos para sincronizar: $presupuestosList")
 
@@ -52,7 +66,6 @@ class PresupuestoViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-
     private suspend fun obtenerPresupuestosParaSincronizar(): List<PresupuestoDto> {
         return withContext(Dispatchers.IO) {
             val presupuestosList = presupuestoDao.getAllDirect()
@@ -75,6 +88,16 @@ class PresupuestoViewModel(application: Application) : AndroidViewModel(applicat
     private suspend fun eliminarPresupuestosLocales() {
         withContext(Dispatchers.IO) {
             presupuestoDao.eliminarTodos()
+        }
+    }
+
+    // Función para obtener la URL de sincronización desde las preferencias compartidas
+    private suspend fun obtenerUrlSincronizacion(): String {
+        return withContext(Dispatchers.IO) {
+            val sharedPreferences = getApplication<Application>().getSharedPreferences("SyncConfig", Context.MODE_PRIVATE)
+            val ip = sharedPreferences.getString("IP_ADDRESS", "192.168.0.1")
+            val port = sharedPreferences.getString("PORT_NUMBER", "8080")
+            "http://$ip:$port/"
         }
     }
 }

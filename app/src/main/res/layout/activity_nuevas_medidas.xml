@@ -48,7 +48,8 @@
                 android:id="@+id/ancho"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ancho" />
+                android:hint="Ancho"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -60,7 +61,8 @@
                 android:id="@+id/alto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Alto" />
+                android:hint="Alto"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
