@@ -42,12 +42,14 @@ class PresupuestoAdapter(
         private val textViewAmbiente: TextView = itemView.findViewById(R.id.textViewAmbiente)
         private val textViewAncho: TextView = itemView.findViewById(R.id.textViewAncho)
         private val textViewAlto: TextView = itemView.findViewById(R.id.textViewAlto)
+        private val textViewSistema: TextView = itemView.findViewById(R.id.textViewSistema)
 
         fun bind(presupuesto: Presupuesto) {
             textViewCliente.text = "Cliente: ${presupuesto.clienteNombre}"
             textViewAmbiente.text = "Amb: ${presupuesto.ambiente}"
             textViewAncho.text = "Ancho: ${presupuesto.ancho}"
             textViewAlto.text = "Alto: ${presupuesto.alto}"
+            textViewSistema.text = "Sistema: ${presupuesto.sistema}"
         }
     }
 }

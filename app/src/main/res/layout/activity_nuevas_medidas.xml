@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Medidas Fati"
+        android:text="Nuevas Medidas"
         android:textSize="24sp" />
 
     <com.google.android.material.textfield.TextInputLayout

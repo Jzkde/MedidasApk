@@ -24,7 +24,7 @@ class PresupuestoViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun sincronizarConServidor() {
+    fun sincronizarConServidor(onResult: (Boolean, String) -> Unit) {
         viewModelScope.launch {
             val presupuestosList = obtenerPresupuestosParaSincronizar()
             Log.d("Sync", "Presupuestos para sincronizar: $presupuestosList")
@@ -41,15 +41,17 @@ class PresupuestoViewModel(application: Application) : AndroidViewModel(applicat
                 if (response?.isSuccessful == true) {
                     Log.d("Sync", "Sincronización exitosa")
                     eliminarPresupuestosLocales()
+                    onResult(true, "Sincronización exitosa")
                 } else {
-                    Log.e(
-                        "Sync",
-                        "Error en la respuesta del servidor: ${response?.errorBody()?.string()}"
-                    )
+                    Log.e("Sync", "Error en la respuesta del servidor: ${response?.errorBody()?.string()}")
+                    onResult(false, "Error en la respuesta del servidor")
                 }
+            } else {
+                onResult(false, "No hay presupuestos para sincronizar")
             }
         }
     }
+
 
     private suspend fun obtenerPresupuestosParaSincronizar(): List<PresupuestoDto> {
         return withContext(Dispatchers.IO) {

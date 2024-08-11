@@ -5,8 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Lista"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbarSize="24dp"
+    tools:context=".Lista">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lista de Medidas"
+        android:textSize="24sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

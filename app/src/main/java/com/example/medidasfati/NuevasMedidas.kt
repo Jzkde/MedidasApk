@@ -84,6 +84,84 @@ class NuevasMedidas : AppCompatActivity() {
     }
 
     fun guardar(v: View) {
+
+        val clienteSeleccionado = clienteNombre.text.toString()
+        val sistemaSeleccionado = sistema.selectedItem.toString()
+        val anchoSeleccionado = ancho.text.toString().toIntOrNull()
+        val altoSeleccionado = alto.text.toString().toIntOrNull()
+        val comandoSeleccionado = comando.selectedItem.toString()
+        val aperturaSeleccionada = apertura.selectedItem.toString()
+
+        when {
+            clienteSeleccionado.isEmpty() -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el CLIENTE"
+                return
+            }
+            sistemaSeleccionado.isEmpty() -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el tipo de SISTEMA"
+                return
+            }
+
+            altoSeleccionado == null || altoSeleccionado == 0 -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el ALTO"
+                return
+            }
+
+            anchoSeleccionado == null || anchoSeleccionado == 0 -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el ANCHO"
+                return
+            }
+
+            comandoSeleccionado.isEmpty() -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el lado del COMANDO"
+                return
+            }
+
+            aperturaSeleccionada.isEmpty() -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el tipo de APERTURA"
+                return
+            }
+
+            (sistemaSeleccionado == "DUBAI" ||
+                    sistemaSeleccionado == "PERSIANA" ||
+                    sistemaSeleccionado == "ROLLER" ||
+                    sistemaSeleccionado == "ORIENTAL") &&
+                    aperturaSeleccionada != "NO_POSEE" -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Este SISTEMA NO tiene APERTURA"
+                return
+            }
+
+            (sistemaSeleccionado == "DUBAI" ||
+                    sistemaSeleccionado == "PERSIANA" ||
+                    sistemaSeleccionado == "ROLLER" ||
+                    sistemaSeleccionado == "ORIENTAL") &&
+                    comandoSeleccionado == "NO_POSEE" -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "A Este SISTEMA le falta el COMANDO"
+                return
+            }
+
+            sistemaSeleccionado == "TELA" && comandoSeleccionado != "NO_POSEE" -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Este SISTEMA NO tiene COMANDO"
+                return
+            }
+
+            sistemaSeleccionado == "TELA" && aperturaSeleccionada == "NO_POSEE" -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "A Este SISTEMA le falta la APERTURA"
+                return
+            }
+
+        }
+
         GlobalScope.launch {
             base.presupuesto().nuevo(
                 Presupuesto(
@@ -107,6 +185,84 @@ class NuevasMedidas : AppCompatActivity() {
     }
 
     fun guardarCambios(v: View) {
+
+        val clienteSeleccionado = clienteNombre.text.toString()
+        val sistemaSeleccionado = sistema.selectedItem.toString()
+        val anchoSeleccionado = ancho.text.toString().toIntOrNull()
+        val altoSeleccionado = alto.text.toString().toIntOrNull()
+        val comandoSeleccionado = comando.selectedItem.toString()
+        val aperturaSeleccionada = apertura.selectedItem.toString()
+
+        when {
+            clienteSeleccionado.isEmpty() -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el CLIENTE"
+                return
+            }
+            sistemaSeleccionado.isEmpty() -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el tipo de SISTEMA"
+                return
+            }
+
+            altoSeleccionado == null || altoSeleccionado == 0 -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el ALTO"
+                return
+            }
+
+            anchoSeleccionado == null || anchoSeleccionado == 0 -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el ANCHO"
+                return
+            }
+
+            comandoSeleccionado.isEmpty() -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el lado del COMANDO"
+                return
+            }
+
+            aperturaSeleccionada.isEmpty() -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Falta el tipo de APERTURA"
+                return
+            }
+
+            (sistemaSeleccionado == "DUBAI" ||
+                    sistemaSeleccionado == "PERSIANA" ||
+                    sistemaSeleccionado == "ROLLER" ||
+                    sistemaSeleccionado == "ORIENTAL") &&
+                    aperturaSeleccionada != "NO_POSEE" -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Este SISTEMA NO tiene APERTURA"
+                return
+            }
+
+            (sistemaSeleccionado == "DUBAI" ||
+                    sistemaSeleccionado == "PERSIANA" ||
+                    sistemaSeleccionado == "ROLLER" ||
+                    sistemaSeleccionado == "ORIENTAL") &&
+                    comandoSeleccionado == "NO_POSEE" -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "A Este SISTEMA le falta el COMANDO"
+                return
+            }
+
+            sistemaSeleccionado == "TELA" && comandoSeleccionado != "NO_POSEE" -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "Este SISTEMA NO tiene COMANDO"
+                return
+            }
+
+            sistemaSeleccionado == "TELA" && aperturaSeleccionada == "NO_POSEE" -> {
+                mensaje.setTextColor(Color.RED)
+                mensaje.text = "A Este SISTEMA le falta la APERTURA"
+                return
+            }
+
+        }
+
         GlobalScope.launch {
             val presupuesto = intent.getParcelableExtra<Presupuesto>("presupuesto")
             if (presupuesto != null) {
