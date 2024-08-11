@@ -1,11 +1,11 @@
-package com.example.medidasfati.room.db
+package com.example.medidasfati.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.medidasfati.room.daos.PresupuestoDao
-import com.example.medidasfati.room.models.Presupuesto
+import com.example.medidasfati.daos.PresupuestoDao
+import com.example.medidasfati.models.Presupuesto
 
 @Database(entities = [Presupuesto::class], version = 1)
 abstract class MedidasDb : RoomDatabase() {
@@ -14,7 +14,7 @@ abstract class MedidasDb : RoomDatabase() {
 
     companion object {
         fun getDb(ctx: Context): MedidasDb {
-            val db = Room.databaseBuilder(ctx, MedidasDb::class.java, "medidas_fati").build()
+            val db = Room.databaseBuilder(ctx, MedidasDb::class.java, "medidas_fati2").build()
             return db
         }
     }
