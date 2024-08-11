@@ -28,4 +28,8 @@ interface PresupuestoDao {
 
     @Query("DELETE FROM presupuesto")
     suspend fun eliminarTodos()
+
+    @Query("SELECT * FROM presupuesto")
+    suspend fun getAllDirect(): List<Presupuesto>
+
 }

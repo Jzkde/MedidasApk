@@ -1,4 +1,4 @@
-package com.example.medidasfati.adapters
+package com.example.medidasfati.daos.adapters
 
 import android.view.LayoutInflater
 import android.view.View

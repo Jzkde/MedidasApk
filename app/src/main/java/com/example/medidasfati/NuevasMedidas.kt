@@ -121,7 +121,6 @@ class NuevasMedidas : AppCompatActivity() {
                 presupuesto.observaciones = observaciones.text.toString()
                 presupuesto.clienteNombre = clienteNombre.text.toString()
 
-                // Actualizar en la base de datos
                 base.presupuesto().editar(presupuesto)
 
                 runOnUiThread {
@@ -142,7 +141,6 @@ class NuevasMedidas : AppCompatActivity() {
                 runOnUiThread {
                     mensaje.setTextColor(Color.RED)
                     mensaje.text = "Medidas ELIMINADAS"
-                    // Regresar a la pantalla de lista
                     finish()
                 }
             }

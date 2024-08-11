@@ -3,12 +3,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://192.168.0.1:8081/"
+    private const val BASE_URL = "http://192.168.0.6:8081/"
 
-    val retrofit: Retrofit by lazy {
+    val apiService: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(ApiService::class.java)
     }
 }

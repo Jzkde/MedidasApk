@@ -1,7 +1,6 @@
 package com.example.medidasfati.enums
 
 enum class Sistema (val displaySistema: String) {
-    NINGUNO(""),
     ROLLER("ROLLER"),
     VERTICALES("VERTICALES"),
     PERSIANA("PERSIANA"),

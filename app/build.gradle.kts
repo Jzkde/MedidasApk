@@ -53,9 +53,12 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.kotlinx.coroutines.android.v139)
     implementation(libs.androidx.room.ktx)
-    compileOnly ("org.projectlombok:lombok:1.18.34")
-    annotationProcessor ("org.projectlombok:lombok:1.18.34")
-    implementation("com.google.code.gson:gson:2.11.0")
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    compileOnly (libs.projectlombok.lombok)
+    annotationProcessor (libs.projectlombok.lombok)
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+
 }
