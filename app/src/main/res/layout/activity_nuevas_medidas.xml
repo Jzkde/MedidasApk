@@ -64,6 +64,16 @@
                 android:hint="Alto"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
+        <Switch
+            android:id="@+id/caida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Adelante"
+            android:textOff="Atras"
+            android:text="Caida"
+            />
+
+
     </LinearLayout>
 
     <LinearLayout

@@ -79,7 +79,8 @@ class PresupuestoViewModel(application: Application) : AndroidViewModel(applicat
                     accesorios = presupuesto.accesorios,
                     ambiente = presupuesto.ambiente,
                     observaciones = presupuesto.observaciones,
-                    clienteNombre = presupuesto.clienteNombre
+                    clienteNombre = presupuesto.clienteNombre,
+                    caida = presupuesto.caida
                 )
             }
         }

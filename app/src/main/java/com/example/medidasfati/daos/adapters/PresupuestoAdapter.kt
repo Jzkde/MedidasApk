@@ -43,6 +43,7 @@ class PresupuestoAdapter(
         private val textViewAncho: TextView = itemView.findViewById(R.id.textViewAncho)
         private val textViewAlto: TextView = itemView.findViewById(R.id.textViewAlto)
         private val textViewSistema: TextView = itemView.findViewById(R.id.textViewSistema)
+        private val textViewCaida: TextView = itemView.findViewById(R.id.textViewCaida)
 
         fun bind(presupuesto: Presupuesto) {
             textViewCliente.text = "Cliente: ${presupuesto.clienteNombre}"
@@ -50,6 +51,11 @@ class PresupuestoAdapter(
             textViewAncho.text = "Ancho: ${presupuesto.ancho}"
             textViewAlto.text = "Alto: ${presupuesto.alto}"
             textViewSistema.text = "Sistema: ${presupuesto.sistema}"
+            textViewCaida.text = if (presupuesto.caida == true) {
+                "Caida: ADELANTE"
+            } else {
+                "Caida: COMUN"
+            }
         }
     }
 }

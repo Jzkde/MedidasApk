@@ -10,4 +10,5 @@ data class PresupuestoDto(
     val ambiente: String?,
     val observaciones: String?,
     val clienteNombre: String,
+    val caida: Boolean
  )

@@ -14,7 +14,7 @@ abstract class MedidasDb : RoomDatabase() {
 
     companion object {
         fun getDb(ctx: Context): MedidasDb {
-            val db = Room.databaseBuilder(ctx, MedidasDb::class.java, "medidas_fati2").build()
+            val db = Room.databaseBuilder(ctx, MedidasDb::class.java, "medidas_fati1").build()
             return db
         }
     }

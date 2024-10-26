@@ -18,7 +18,9 @@ data class Presupuesto(
     var ambiente: String = "",
     var observaciones: String = "",
     var clienteNombre: String = "",
+    var caida: Boolean = false ,
 ) : Parcelable {
+
     constructor(parcel: Parcel) : this(
         parcel.readLong(),  // Para el id
         parcel.readString() ?: "",
@@ -29,7 +31,9 @@ data class Presupuesto(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readByte() != 0.toByte()
+
     ) {
     }
 
@@ -44,6 +48,7 @@ data class Presupuesto(
         parcel.writeString(ambiente)
         parcel.writeString(observaciones)
         parcel.writeString(clienteNombre)
+        parcel.writeByte(if (caida) 1 else 0)
     }
 
     override fun describeContents(): Int {
