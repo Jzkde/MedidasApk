@@ -9,11 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.medidasfati.componentes.PresupuestoViewModel
+import com.example.medidasfati.componentes.MedidaViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var presViewModel: PresupuestoViewModel
+    private lateinit var presViewModel: MedidaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Inicializa el ViewModel
-        presViewModel = ViewModelProvider(this).get(PresupuestoViewModel::class.java)
+        presViewModel = ViewModelProvider(this).get(MedidaViewModel::class.java)
 
         // Configuración de los insets de la ventana
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Configura botónes para agregar, listar y sincronizar presupuestos
+        // Configura botónes para agregar, listar y sincronizar medidas
         val btn_nuevo = findViewById<Button>(R.id.btn_nuevo)
         btn_nuevo.setOnClickListener {
             val intent = Intent(this, NuevasMedidas::class.java)

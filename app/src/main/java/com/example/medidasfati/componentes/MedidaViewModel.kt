@@ -11,20 +11,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.example.medidasfati.db.MedidasDb
-import com.example.medidasfati.models.Presupuesto
-import com.example.medidasfati.Dtos.PresupuestoDto
+import com.example.medidasfati.models.Medida
+import com.example.medidasfati.Dtos.MedidaDto
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class PresupuestoViewModel(application: Application) : AndroidViewModel(application) {
+class MedidaViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val presupuestoDao = MedidasDb.getDb(application).presupuesto()
+    private val medidaDao = MedidasDb.getDb(application).medida()
     private val apiService = RetrofitClient.apiService
-    val presupuestos: LiveData<List<Presupuesto>> = presupuestoDao.getAll()
+    val medidas: LiveData<List<Medida>> = medidaDao.getAll()
 
-    fun addPresupuesto(newPresupuesto: Presupuesto) {
+    fun addMedida(newMedida: Medida) {
         viewModelScope.launch(Dispatchers.IO) {
-            presupuestoDao.nuevo(newPresupuesto)
+            medidaDao.nuevo(newMedida)
         }
     }
 
@@ -40,13 +40,13 @@ class PresupuestoViewModel(application: Application) : AndroidViewModel(applicat
 
             val apiService = retrofit.create(ApiService::class.java)
 
-            val presupuestosList = obtenerPresupuestosParaSincronizar()
-            Log.d("Sync", "Presupuestos para sincronizar: $presupuestosList")
+            val medidasList = obtenerMedidasParaSincronizar()
+            Log.d("Sync", "Medidas para sincronizar: $medidasList")
 
-            if (presupuestosList.isNotEmpty()) {
+            if (medidasList.isNotEmpty()) {
                 val response = withContext(Dispatchers.IO) {
                     try {
-                        apiService.syncPresupuestos(presupuestosList)
+                        apiService.syncMedidas(medidasList)
                     } catch (e: Exception) {
                         Log.e("Sync", "Error al sincronizar: ${e.message}", e)
                         null
@@ -54,41 +54,41 @@ class PresupuestoViewModel(application: Application) : AndroidViewModel(applicat
                 }
                 if (response?.isSuccessful == true) {
                     Log.d("Sync", "Sincronización exitosa")
-                    eliminarPresupuestosLocales()
+                    eliminarMedidasLocales()
                     onResult(true, "Sincronización exitosa")
                 } else {
                     Log.e("Sync", "Error en la respuesta del servidor: ${response?.errorBody()?.string()}")
                     onResult(false, "Error en la respuesta del servidor")
                 }
             } else {
-                onResult(false, "No hay presupuestos para sincronizar")
+                onResult(false, "No hay medidas para sincronizar")
             }
         }
     }
 
-    private suspend fun obtenerPresupuestosParaSincronizar(): List<PresupuestoDto> {
+    private suspend fun obtenerMedidasParaSincronizar(): List<MedidaDto> {
         return withContext(Dispatchers.IO) {
-            val presupuestosList = presupuestoDao.getAllDirect()
-            presupuestosList.map { presupuesto ->
-                PresupuestoDto(
-                    sistema = presupuesto.sistema,
-                    ancho = presupuesto.ancho,
-                    alto = presupuesto.alto,
-                    comando = presupuesto.comando,
-                    apertura = presupuesto.apertura,
-                    accesorios = presupuesto.accesorios,
-                    ambiente = presupuesto.ambiente,
-                    observaciones = presupuesto.observaciones,
-                    clienteNombre = presupuesto.clienteNombre,
-                    caida = presupuesto.caida
+            val medidasList = medidaDao.getAllDirect()
+            medidasList.map { medida ->
+                MedidaDto(
+                    sistema = medida.sistema,
+                    ancho = medida.ancho,
+                    alto = medida.alto,
+                    comando = medida.comando,
+                    apertura = medida.apertura,
+                    accesorios = medida.accesorios,
+                    ambiente = medida.ambiente,
+                    observaciones = medida.observaciones,
+                    cliente = medida.cliente,
+                    caida = medida.caida
                 )
             }
         }
     }
 
-    private suspend fun eliminarPresupuestosLocales() {
+    private suspend fun eliminarMedidasLocales() {
         withContext(Dispatchers.IO) {
-            presupuestoDao.eliminarTodos()
+            medidaDao.eliminarTodos()
         }
     }
 

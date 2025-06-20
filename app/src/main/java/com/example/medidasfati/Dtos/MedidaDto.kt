@@ -1,6 +1,6 @@
 package com.example.medidasfati.Dtos
 
-data class PresupuestoDto(
+data class MedidaDto(
     val sistema: String,
     val ancho: Int,
     val alto: Int,
@@ -9,6 +9,6 @@ data class PresupuestoDto(
     val accesorios: String?,
     val ambiente: String?,
     val observaciones: String?,
-    val clienteNombre: String,
+    val cliente: String,
     val caida: Boolean
  )

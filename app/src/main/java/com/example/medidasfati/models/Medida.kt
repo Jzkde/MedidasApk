@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Presupuesto(
+data class Medida(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     var sistema: String = "",
@@ -17,7 +17,7 @@ data class Presupuesto(
     var accesorios: String = "",
     var ambiente: String = "",
     var observaciones: String = "",
-    var clienteNombre: String = "",
+    var cliente: String = "",
     var caida: Boolean = false ,
 ) : Parcelable {
 
@@ -47,7 +47,7 @@ data class Presupuesto(
         parcel.writeString(accesorios)
         parcel.writeString(ambiente)
         parcel.writeString(observaciones)
-        parcel.writeString(clienteNombre)
+        parcel.writeString(cliente)
         parcel.writeByte(if (caida) 1 else 0)
     }
 
@@ -55,12 +55,12 @@ data class Presupuesto(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Presupuesto> {
-        override fun createFromParcel(parcel: Parcel): Presupuesto {
-            return Presupuesto(parcel)
+    companion object CREATOR : Parcelable.Creator<Medida> {
+        override fun createFromParcel(parcel: Parcel): Medida {
+            return Medida(parcel)
         }
 
-        override fun newArray(size: Int): Array<Presupuesto?> {
+        override fun newArray(size: Int): Array<Medida?> {
             return arrayOfNulls(size)
         }
     }

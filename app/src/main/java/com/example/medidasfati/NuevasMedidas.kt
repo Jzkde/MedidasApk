@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.medidasfati.componentes.SpinnerConf
 import com.example.medidasfati.db.MedidasDb
-import com.example.medidasfati.models.Presupuesto
+import com.example.medidasfati.models.Medida
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,7 +32,7 @@ class NuevasMedidas : AppCompatActivity() {
     lateinit var accesorios: TextInputEditText
     lateinit var ambiente: TextInputEditText
     lateinit var observaciones: TextInputEditText
-    lateinit var clienteNombre: TextInputEditText
+    lateinit var cliente: TextInputEditText
     lateinit var mensaje: TextView
     lateinit var cambios: Button
     lateinit var guardar: Button
@@ -54,8 +54,8 @@ class NuevasMedidas : AppCompatActivity() {
         // Inicializa los componentes de la UI
         initControlsUi()
 
-        // Configurar CamelCase para clienteNombre
-        clienteNombre.addTextChangedListener(object : TextWatcher {
+        // Configurar CamelCase para cliente
+        cliente.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -64,9 +64,9 @@ class NuevasMedidas : AppCompatActivity() {
                 if (!s.isNullOrEmpty()) {
                     val camelCaseText = convertToCamelCase(s.toString())
                     // Evita un bucle infinito de cambios
-                    if (clienteNombre.text.toString() != camelCaseText) {
-                        clienteNombre.setText(camelCaseText)
-                        clienteNombre.setSelection(camelCaseText.length) // Mover el cursor al final
+                    if (cliente.text.toString() != camelCaseText) {
+                        cliente.setText(camelCaseText)
+                        cliente.setSelection(camelCaseText.length) // Mover el cursor al final
                     }
                 }
             }
@@ -82,24 +82,24 @@ class NuevasMedidas : AppCompatActivity() {
         // Obtiene la instancia de la base de datos
         base = MedidasDb.getDb(applicationContext)
 
-        // Carga un presupuesto existente si se pasa en la Intent
-        val presupuesto = intent.getParcelableExtra<Presupuesto>("presupuesto")
-        if (presupuesto != null) {
+        // Carga un medida existente si se pasa en la Intent
+        val medida = intent.getParcelableExtra<Medida>("medida")
+        if (medida != null) {
             eliminar.visibility = View.VISIBLE
             cambios.visibility = View.VISIBLE
             guardar.visibility = View.GONE
 
-            // Copmleta los campos con los datos del presupuesto existente
-            sistema.setSelection(getSpinnerPosition(sistema, presupuesto.sistema))
-            ancho.setText(presupuesto.ancho.toString())
-            alto.setText(presupuesto.alto.toString())
-            comando.setSelection(getSpinnerPosition(comando, presupuesto.comando))
-            apertura.setSelection(getSpinnerPosition(apertura, presupuesto.apertura))
-            accesorios.setText(presupuesto.accesorios)
-            ambiente.setText(presupuesto.ambiente)
-            observaciones.setText(presupuesto.observaciones)
-            clienteNombre.setText(presupuesto.clienteNombre)
-            caida.isChecked = presupuesto.caida
+            // Copmleta los campos con los datos del medida existente
+            sistema.setSelection(getSpinnerPosition(sistema, medida.sistema))
+            ancho.setText(medida.ancho.toString())
+            alto.setText(medida.alto.toString())
+            comando.setSelection(getSpinnerPosition(comando, medida.comando))
+            apertura.setSelection(getSpinnerPosition(apertura, medida.apertura))
+            accesorios.setText(medida.accesorios)
+            ambiente.setText(medida.ambiente)
+            observaciones.setText(medida.observaciones)
+            cliente.setText(medida.cliente)
+            caida.isChecked = medida.caida
         }
     }
 
@@ -113,9 +113,9 @@ class NuevasMedidas : AppCompatActivity() {
         return 0
     }
 
-    // Función para guardar un nuevo presupuesto
+    // Función para guardar un nuevo medida
     fun guardar(v: View) {
-        val clienteSeleccionado = clienteNombre.text.toString()
+        val clienteSeleccionado = cliente.text.toString()
         val sistemaSeleccionado = sistema.selectedItem.toString()
         val anchoSeleccionado = ancho.text.toString().toIntOrNull()
         val altoSeleccionado = alto.text.toString().toIntOrNull()
@@ -193,10 +193,10 @@ class NuevasMedidas : AppCompatActivity() {
 
         }
 
-        // Guarda el nuevo presupuesto en la base de datos
+        // Guarda el nuevo medida en la base de datos
         GlobalScope.launch {
-            base.presupuesto().nuevo(
-                Presupuesto(
+            base.medida().nuevo(
+                Medida(
                     sistema = sistema.selectedItem.toString(),
                     ancho = ancho.text.toString().toInt(),
                     alto = alto.text.toString().toInt(),
@@ -205,7 +205,7 @@ class NuevasMedidas : AppCompatActivity() {
                     accesorios = accesorios.text.toString(),
                     ambiente = ambiente.text.toString(),
                     observaciones = observaciones.text.toString(),
-                    clienteNombre = clienteNombre.text.toString(),
+                    cliente = cliente.text.toString(),
                     caida = caida.isChecked
                 )
             )
@@ -217,9 +217,9 @@ class NuevasMedidas : AppCompatActivity() {
         }
     }
 
-    // Guarda los cambios en el  presupuesto existente
+    // Guarda los cambios en el  medida existente
     fun guardarCambios(v: View) {
-        val clienteSeleccionado = clienteNombre.text.toString()
+        val clienteSeleccionado = cliente.text.toString()
         val sistemaSeleccionado = sistema.selectedItem.toString()
         val anchoSeleccionado = ancho.text.toString().toIntOrNull()
         val altoSeleccionado = alto.text.toString().toIntOrNull()
@@ -298,21 +298,21 @@ class NuevasMedidas : AppCompatActivity() {
         }
 
         GlobalScope.launch {
-            val presupuesto = intent.getParcelableExtra<Presupuesto>("presupuesto")
-            if (presupuesto != null) {
+            val medida = intent.getParcelableExtra<Medida>("medida")
+            if (medida != null) {
                 // Actualizar los campos con los nuevos valores
-                presupuesto.sistema = sistema.selectedItem.toString()
-                presupuesto.ancho = ancho.text.toString().toInt()
-                presupuesto.alto = alto.text.toString().toInt()
-                presupuesto.comando = comando.selectedItem.toString()
-                presupuesto.apertura = apertura.selectedItem.toString()
-                presupuesto.accesorios = accesorios.text.toString()
-                presupuesto.ambiente = ambiente.text.toString()
-                presupuesto.observaciones = observaciones.text.toString()
-                presupuesto.clienteNombre = clienteNombre.text.toString()
-                presupuesto.caida = caida.isChecked
+                medida.sistema = sistema.selectedItem.toString()
+                medida.ancho = ancho.text.toString().toInt()
+                medida.alto = alto.text.toString().toInt()
+                medida.comando = comando.selectedItem.toString()
+                medida.apertura = apertura.selectedItem.toString()
+                medida.accesorios = accesorios.text.toString()
+                medida.ambiente = ambiente.text.toString()
+                medida.observaciones = observaciones.text.toString()
+                medida.cliente = cliente.text.toString()
+                medida.caida = caida.isChecked
 
-                base.presupuesto().editar(presupuesto)
+                base.medida().editar(medida)
 
                 runOnUiThread {
                     mensaje.setTextColor(Color.GREEN)
@@ -325,10 +325,10 @@ class NuevasMedidas : AppCompatActivity() {
     }
 
     fun eliminar(v: View) {
-        val presupuesto = intent.getParcelableExtra<Presupuesto>("presupuesto")
-        if (presupuesto != null) {
+        val medida = intent.getParcelableExtra<Medida>("medida")
+        if (medida != null) {
             GlobalScope.launch {
-                base.presupuesto().borrar(presupuesto)
+                base.medida().borrar(medida)
                 runOnUiThread {
                     mensaje.setTextColor(Color.RED)
                     mensaje.text = "Medidas ELIMINADAS"
@@ -357,7 +357,7 @@ class NuevasMedidas : AppCompatActivity() {
         accesorios = findViewById(R.id.accesorios)
         ambiente = findViewById(R.id.ambiente)
         observaciones = findViewById(R.id.observaciones)
-        clienteNombre = findViewById(R.id.clienteNombre)
+        cliente = findViewById(R.id.cliente)
         mensaje = findViewById(R.id.mensaje)
         guardar = findViewById(R.id.guardar)
         cambios = findViewById(R.id.cambios)
